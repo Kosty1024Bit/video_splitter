@@ -7,7 +7,7 @@ import sys
 name_of_file = os.listdir()
 name_of_videos = []
 for file in name_of_file:
-    if file.find(".mp4"):
+    if file.find(".mp4") != -1:
         name_of_videos.append(file)
         
 if len(name_of_videos) == 0:
