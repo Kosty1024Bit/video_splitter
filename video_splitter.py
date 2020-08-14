@@ -23,8 +23,8 @@ import sys
 # 18. CV_CAP_PROP_RECTIFICATION Rectification flag for stereo cameras (note: only supported by DC1394 v 2.x backend currently)
 
 
-path = r"E:\Download\pubg"
-result_folder = os.path.join(path, "result")
+path = r'E:\Download\pubg'
+result_folder = os.path.join(path, 'result')
 SECONDS     = 15
 FIRST_FRAME = 2
 LAST_SECOND = -10
@@ -32,55 +32,53 @@ LAST_SECOND = -10
 name_of_file = os.listdir(path)
 name_of_videos = []
 for file in name_of_file:
-    if file.find(".mp4") != -1:
+    if file.endswith('.mp4'):
         name_of_videos.append(file)
-        
+
 if len(name_of_videos) == 0:
-    print("videos not found")
-    print("only: mp4, ...")
+    print('videos not found')
+    print('only: mp4, ...')
     sys.exit(1)
-    
-    
+
 if not os.path.isdir(result_folder):
     os.mkdir(result_folder)
 
-
 for video in name_of_videos:
-    cap = cv2.VideoCapture(os.path.join(path,video))
-    name_video = video.split(".")[0]
+    cap = cv2.VideoCapture(os.path.join(path, video))
+    name_video = video.split('.')[0]
 
     fps    = int(cap.get(cv2.CAP_PROP_FPS))
     widht  = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-        
+
     num_frame = FIRST_FRAME
 
-    if cap.isOpened() :
-        print(video + " | fps: " + str(fps) + ", frame count: " + str(frame_count) + ", shape: " + str(widht) + "x" + str(height))
-        
-    while(cap.isOpened()):
-        frame_no = num_frame  * SECONDS * 1000
+    if cap.isOpened():
+        print(video + ' | fps: ' + str(fps) + ', frame count: ' + str(frame_count) + ', shape: ' + str(widht) + 'x' + str(height))
+
+    while cap.isOpened():
+        frame_no = num_frame * SECONDS * 1000
         if frame_no > (frame_count / fps - LAST_SECOND) * 1000:
-            break;
+            break
 
         cap.set(cv2.CAP_PROP_POS_MSEC, frame_no)
         ret, frame = cap.read()
         if not ret:
             break
 
-        name_img = os.path.join(result_folder, name_video + str(num_frame)  + ".png")
+        name_img = os.path.join(result_folder, name_video + str(num_frame) + '.png')
         cv2.imwrite(name_img, frame)
-                
-        print('\r', end = '')
-        print(str(int(round(frame_no / ((frame_count / fps - LAST_SECOND) * 1000) * 100))) + "%",  end = '')
-        
+
+        print('\r', end='')
+        print(str(int(round(frame_no / ((frame_count / fps - LAST_SECOND) * 1000) * 100))) + '%',  end='')
+
         num_frame += 1
-        
-    print('\r', end = '')
-    print("image count " + str(num_frame - 1))
-    print("")
-    
+
+    print('\r', end='')
+    print('image count ' + str(num_frame - 1))
+    print('')
+
     cap.release()
 
-print("Well done!")
+print('Well done!')
