@@ -24,7 +24,7 @@ import sys
 
 
 path = r'E:\Download\pubg'
-result_folder = os.path.join(path, 'result')
+result_folder = os.path.join(path, 'frames')
 SECONDS     = 15
 FIRST_FRAME = 2
 LAST_SECOND = -10
@@ -71,7 +71,7 @@ for video in name_of_videos:
         cv2.imwrite(name_img, frame)
 
         print('\r', end='')
-        print(str(int(round(frame_no / ((frame_count / fps - LAST_SECOND) * 1000) * 100))) + '%',  end='')
+        print(str(int(round(frame_no / ((frame_count / fps - LAST_SECOND) * 1000) * 100))) + '%', end='')
 
         num_frame += 1
 
